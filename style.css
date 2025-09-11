@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+.toolbar{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.toolbar-g{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    background-color: #4c4c4d;
+    border-radius: 10px;
+    padding: 5px;
+}
+.toolbar-el {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+}
+.toolbar-el:hover {
+    cursor: pointer;
+    background-color: #7d7d7d;
+}
+.toolbar-el p {
+    margin-bottom: 0.1px;
+    font-family: 'Noto Sans', sans-serif;
+}
+.body-split {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 20px;
+    margin-left: 1px;
+}
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 190px;
+    background-color: #4c4c4d;
+    border-radius: 10px;
+    padding: 10px;
+    gap: 10px;
+}
+.sidebar-el, .sidebar-el-selected {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    padding: 5px;
+}
+.sidebar-el:hover {
+    cursor: pointer;
+    background-color: #7d7d7d;
+    border-radius: 10px;
+}
+.sidebar-el-selected {
+    background-color: #7d7d7d;
+    border-radius: 10px;
+}
+.main-content {
+    background-color: #4c4c4d;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+.VStack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+iframe {
+    width: 100%;
+    height: 225px;
+    border: none;
+}
