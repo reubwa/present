@@ -304,3 +304,39 @@ function newTitleSlide() {
     renderSidebar();
     showEditor();
 }
+
+function savePresentation() {
+    const presData = JSON.stringify(pres, null, 2);
+    const blob = new Blob([presData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${pres.title || 'presentation'}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function openPresentation() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'application/json';
+    input.onchange = e => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = event => {
+            try {
+                const json = JSON.parse(event.target.result);
+                pres = new Presentation(json.title, json.slides.map(s => new Slide(s.title, new SlideContent(s.content.type, s.content.strings), s.number)));
+                currentSlide = 1;
+                renderSidebar();
+                showEditor();
+            } catch (error) {
+                alert('Invalid presentation file.');
+            }
+        };
+        reader.readAsText(file);
+    };
+    input.click();
+}
