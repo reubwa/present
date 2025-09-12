@@ -228,18 +228,21 @@ function moveBulletUp(index) {
     if (index === 0) return;
     const slide = pres.slides[currentSlide - 1];
     if (!slide) return;
-    [slide.content.strings[index - 1], slide.content.strings[index]] = 
+
+    // Swap the bullets in the data model
+    [slide.content.strings[index - 1], slide.content.strings[index]] =
         [slide.content.strings[index], slide.content.strings[index - 1]];
-    saveBulletSlide(); // Save and re-render
     assembleBulletSlide(slide);
 }
 
 function moveBulletDown(index) {
     const slide = pres.slides[currentSlide - 1];
     if (!slide || index === slide.content.strings.length - 1) return;
-    [slide.content.strings[index + 1], slide.content.strings[index]] = 
+
+    // Swap the bullets in the data model
+    [slide.content.strings[index + 1], slide.content.strings[index]] =
         [slide.content.strings[index], slide.content.strings[index + 1]];
-    saveBulletSlide(); // Save and re-render
+
     assembleBulletSlide(slide);
 }
 
