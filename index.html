@@ -26,7 +26,7 @@
                 <span class="material-symbols-rounded">add_row_below</span>
                 <p>Add Slide</p>
             </div>
-            <div class="toolbar-el">
+            <div class="toolbar-el" onclick="removeSlide()">
                 <span class="material-symbols-rounded">variable_remove</span>
                 <p>Remove Slide</p>
             </div>
@@ -55,7 +55,7 @@
             </div>
         </div>
     </dialog>
-    <div class="body-split" onload="document.querySelector('dialog').showModal()">
+    <div class="body-split">
         <div class="sidebar" id="sb">
             <p>No Slides!</p>
         </div>

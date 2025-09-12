@@ -21,7 +21,9 @@ class Presentation {
 
     addSlide(title, type) {
         const slideNumber = this.slides.length + 1;
-        const newSlide = new Slide(title, new SlideContent(type), slideNumber);
+        // REFINEMENT: Ensure new bullet slides start with one empty string.
+        const initialStrings = type === 'bullet' ? [''] : [];
+        const newSlide = new Slide(title, new SlideContent(type, initialStrings), slideNumber);
         this.slides.push(newSlide);
         return newSlide;
     }
@@ -35,11 +37,21 @@ class Presentation {
     }
 }
 
-// Note: The 'type' parameter is unused here, but kept for future use (e.g., showing different icons).
+function typeToIcon(type) {
+    switch (type) {
+        case "title":
+            return "title";
+        case "bullet":
+            return "format_list_bulleted";
+        default:
+            return "description";
+    }
+}
+
 function sidebarSlide(name, type) {
     return `
-        <div class="sidebar-el">
-            <span class="material-symbols-rounded">text_fields</span>
+        <div class="sidebar-el" data-slide-number="${name}">
+            <span class="material-symbols-rounded">${type}</span>
             <p>${name}</p>
         </div>
     `;
@@ -47,18 +59,19 @@ function sidebarSlide(name, type) {
 
 function sidebarSlideSelected(name, type) {
     return `
-        <div class="sidebar-el-selected">
-            <span class="material-symbols-rounded">title</span>
+        <div class="sidebar-el-selected" data-slide-number="${name}">
+            <span class="material-symbols-rounded">${type}</span>
             <p>${name}</p>
         </div>
     `;
 }
 
-function midBullet(index){
+// REFINEMENT: Parameterized functions for safer HTML generation.
+function midBullet(index, text) {
     return `
         <div class="HStack">
             <p>•</p>
-            <input class="bullet" id="b-${index}" placeholder="Bullet" oninput="saveBulletSlide()"/>
+            <input class="bullet" id="b-${index}" value="${text}" placeholder="Bullet" oninput="saveBulletSlide()"/>
             <button onclick="moveBulletUp(${index})"><span class="material-symbols-rounded">arrow_drop_up</span></button>
             <button onclick="moveBulletDown(${index})"><span class="material-symbols-rounded">arrow_drop_down</span></button>
             <button onclick="deleteBullet(${index})"><span class="material-symbols-rounded">delete</span></button>
@@ -66,11 +79,11 @@ function midBullet(index){
     `;
 }
 
-function bottomBullet(index){
+function bottomBullet(index, text) {
     return `
         <div class="HStack">
             <p>•</p>
-            <input class="bullet" id="b-${index}" placeholder="Bullet" oninput="saveBulletSlide()"/>
+            <input class="bullet" id="b-${index}" value="${text}" placeholder="Bullet" oninput="saveBulletSlide()"/>
             <button onclick="moveBulletUp(${index})"><span class="material-symbols-rounded">arrow_drop_up</span></button>
             <button onclick="moveBulletDown(${index})" disabled><span class="material-symbols-rounded">arrow_drop_down</span></button>
             <button onclick="deleteBullet(${index})"><span class="material-symbols-rounded">delete</span></button>
@@ -78,21 +91,22 @@ function bottomBullet(index){
     `;
 }
 
-let topBullet = `
+function topBullet(index, text){
+    const isOnlyBullet = pres.slides[currentSlide - 1].content.strings.length === 1;
+    return `
         <div class="HStack">
             <p>•</p>
-            <input class="bullet" id="b-0" placeholder="Bullet" oninput="saveBulletSlide()"/>
-            <button onclick="moveBulletUp(0)" disabled><span class="material-symbols-rounded">arrow_drop_up</span></button>
-            <button onclick="moveBulletDown(0)"><span class="material-symbols-rounded">arrow_drop_down</span></button>
-            <button onclick="deleteBullet(0)" disabled><span class="material-symbols-rounded">delete</span></button>
+            <input class="bullet" id="b-${index}" value="${text}" placeholder="Bullet" oninput="saveBulletSlide()"/>
+            <button onclick="moveBulletUp(${index})" disabled><span class="material-symbols-rounded">arrow_drop_up</span></button>
+            <button onclick="moveBulletDown(${index})" ${isOnlyBullet ? 'disabled' : ''}><span class="material-symbols-rounded">arrow_drop_down</span></button>
+            <button onclick="deleteBullet(${index})" ${isOnlyBullet ? 'disabled' : ''}><span class="material-symbols-rounded">delete</span></button>
         </div>
     `;
+}
 
 let addBulletButton = `
     <button onclick="addBullet()"><span class="material-symbols-rounded">format_list_bulleted_add</span></button>
     `;
-
-let bulletTitle = `<input id="title" placeholder="Title" style="text-align: left;" oninput="saveBulletSlide()"/>`;
 
 let titleEditor = `
     <div class="VStack">
@@ -101,84 +115,183 @@ let titleEditor = `
     </div>
     `;
 
-let emptyBulletSlide = `
-    <div class="VStack" id="bullets">
-        <input id="title" placeholder="Title" style="text-align: left;" oninput="saveBulletSlide()"/>
-        <div class="HStack">
-            <p>•</p>
-            <input class="bullet" id="b-0" placeholder="Bullet" oninput="saveBulletSlide()"/>
-            <button onclick="moveBulletUp(0)" disabled><span class="material-symbols-rounded">arrow_drop_up</span></button>
-            <button onclick="moveBulletDown(0)" disabled><span class="material-symbols-rounded">arrow_drop_down</span></button>
-            <button onclick="deleteBullet(0)" disabled><span class="material-symbols-rounded">delete</span></button>
-        </div>
-        <button onclick="addBullet()"><span class="material-symbols-rounded">format_list_bulleted_add</span></button>
-    </div>
-`;
-
 // --- SCRIPT LOGIC ---
 
 const sidebar = document.getElementById("sb");
-const addSlideDlg = document.getElementById("addSlideDlg");
 let currentSlide = 1;
 let pres;
 
 function newPres(name) {
     pres = new Presentation(name, []);
     pres.addSlide("Title", "title");
-    requestAnimationFrame(renderSidebar);
-    requestAnimationFrame(showEditor);
+    renderSidebar();
+    showEditor();
+}
+
+function showSlideDlg(){
+    const newSlideDlg = document.getElementById("addSlideDlg");
+    newSlideDlg.showPopover();
 }
 
 function renderSidebar() {
     let sidebarHTML = "";
-
     pres.slides.forEach(presSlide => {
         const slideTitle = presSlide.title;
         const slideType = presSlide.content.type;
+        const slideNumber = presSlide.number;
 
-        if (presSlide.number == currentSlide) {
-            sidebarHTML += sidebarSlideSelected(slideTitle, slideType);
+        if (slideNumber == currentSlide) {
+            sidebarHTML += sidebarSlideSelected(slideTitle, typeToIcon(slideType));
         } else {
-            sidebarHTML += sidebarSlide(slideTitle, slideType);
+            sidebarHTML += sidebarSlide(slideTitle, typeToIcon(slideType));
         }
     });
-
     sidebar.innerHTML = sidebarHTML;
 }
 
 function newBulletSlide() {
     pres.addSlide("New Slide", "bullet");
-    const dlg = document.getElementById("addSlideDlg");
-    dlg.hidePopover();
-    renderSidebar(); // Add this back
+    currentSlide = pres.slides.length; // Select the new slide
+    const newSlideDlg = document.getElementById("addSlideDlg");
+    newSlideDlg.hidePopover();
+    renderSidebar();
+    showEditor();
 }
 
-function showEditor(){
-    // Get the slide using the correct 0-based index
+function showEditor() {
     const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
 
-    // First, check if the slide actually exists, then check its type
-    if (slide && slide.content.type === "title") {
-        document.getElementById("editor").innerHTML = titleEditor;
+    if (slide.content.type === "title") {
+        showTitleEditor();
+    } else if (slide.content.type === "bullet") {
+        showBulletEditor();
     }
+}
+
+function showTitleEditor() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+    
+    document.getElementById("editor").innerHTML = titleEditor;
+    const titleInput = document.getElementById("title");
+    const subtitleInput = document.getElementById("subtitle");
+    titleInput.value = slide.title;
+    subtitleInput.value = slide.content.strings[0] || "";
 }
 
 function saveTitleSlide() {
     const slide = pres.slides[currentSlide - 1];
-    if (!slide) return; // Safety check in case there's no slide
+    if (!slide) return;
 
     const titleInput = document.getElementById("title");
     const subtitleInput = document.getElementById("subtitle");
 
-    // Update the data model
     slide.title = titleInput.value || "Title";
-    slide.content.strings = [subtitleInput.value || ""]; // Storing an empty string is fine
+    slide.content.strings = [subtitleInput.value || ""];
 
-    // Re-render the sidebar to show the new title
     renderSidebar();
 }
 
-function showSlideDlg() {
-    const dlg = document.getElementById("addSlideDlg");
-    dlg.showPopover();
+function showBulletEditor() {
+    // BUG FIX: The main logic is now in assembleBulletSlide, which is always called.
+    // This ensures the data and view are always in sync.
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+    assembleBulletSlide(slide);
+}
+
+function assembleBulletSlide(slide) {
+    // REFINEMENT: Simplified assembly logic using parameterized functions.
+    let bulletHTML = `<div class="VStack" id="bullets">
+        <input id="title" placeholder="Title" style="text-align: left;" value="${slide.title}" oninput="saveBulletSlide()"/>`;
+
+    slide.content.strings.forEach((bulletText, index) => {
+        if (index === 0) {
+            bulletHTML += topBullet(index, bulletText);
+        } else if (index === slide.content.strings.length - 1) {
+            bulletHTML += bottomBullet(index, bulletText);
+        } else {
+            bulletHTML += midBullet(index, bulletText);
+        }
+    });
+
+    bulletHTML += addBulletButton + `</div>`;
+    document.getElementById("editor").innerHTML = bulletHTML;
+}
+
+function moveBulletUp(index) {
+    if (index === 0) return;
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+    [slide.content.strings[index - 1], slide.content.strings[index]] = 
+        [slide.content.strings[index], slide.content.strings[index - 1]];
+    saveBulletSlide(); // Save and re-render
+    assembleBulletSlide(slide);
+}
+
+function moveBulletDown(index) {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide || index === slide.content.strings.length - 1) return;
+    [slide.content.strings[index + 1], slide.content.strings[index]] = 
+        [slide.content.strings[index], slide.content.strings[index + 1]];
+    saveBulletSlide(); // Save and re-render
+    assembleBulletSlide(slide);
+}
+
+function deleteBullet(index) {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide || slide.content.strings.length === 1) return;
+    slide.content.strings.splice(index, 1);
+    saveBulletSlide(); // Save and re-render
+    assembleBulletSlide(slide);
+}
+
+function addBullet() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+    slide.content.strings.push("");
+    saveBulletSlide(); // Save and re-render
+    assembleBulletSlide(slide);
+}
+
+function saveBulletSlide() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+
+    const titleInput = document.getElementById("title");
+    slide.title = titleInput.value || "Title";
+
+    slide.content.strings = slide.content.strings.map((_, index) => {
+        const bulletInput = document.getElementById(`b-${index}`);
+        return bulletInput ? bulletInput.value : "";
+    });
+
+    renderSidebar();
+}
+
+sidebar.addEventListener('click', function(event) {
+    let target = event.target;
+    while (target && target !== sidebar) {
+        if (target.classList.contains('sidebar-el') || target.classList.contains('sidebar-el-selected')) {
+            const index = Array.from(sidebar.children).indexOf(target);
+            if (index !== -1 && pres.slides[index]) {
+                currentSlide = pres.slides[index].number;
+                renderSidebar();
+                showEditor();
+            }
+            return;
+        }
+        target = target.parentElement;
+    }
+});
+
+function removeSlide() {
+    if (pres.slides.length === 1) return; // Prevent removing the last slide
+    pres.removeSlide(currentSlide);
+    if (currentSlide > pres.slides.length) {
+        currentSlide = pres.slides.length;
+    }
+    renderSidebar();
+    showEditor();
 }
