@@ -94,6 +94,8 @@ function renderSidebar() {
 
 function newBulletSlide() {
     pres.addSlide("New Slide", "bullet");
+    const dlg = document.getElementById("addSlideDlg");
+    dlg.hidePopover();
     renderSidebar(); // Add this back
 }
 
@@ -120,4 +122,9 @@ function saveSlide() {
 
     // Re-render the sidebar to show the new title
     renderSidebar();
+}
+
+function showSlideDlg() {
+    const dlg = document.getElementById("addSlideDlg");
+    dlg.showPopover();
 }
