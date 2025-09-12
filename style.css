@@ -72,6 +72,45 @@
     flex-direction: column;
     gap: 10px;
 }
+.HStack {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
 .sidebar p {
     font-family: 'Noto Sans', sans-serif;
+}
+dialog {
+    border:none;
+    border-radius: 10px;
+    background-color: #b9b9b9;
+    padding: 10px;
+}
+dialog::backdrop {
+    background-color: grey;
+    opacity: 0.8;
+}
+dialog h1{
+    font-family: 'Noto Sans', sans-serif;
+}
+.gallery-opt{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #7d7d7d;
+    border: none;
+}
+.gallery-opt:hover{
+    cursor: pointer;
+    background-color: #a3a3a3;
+}
+#title{
+    font-size: 100px;
+    text-align: center;
+}
+#subtitle{
+    font-size: 50px;
+    text-align: center;
 }

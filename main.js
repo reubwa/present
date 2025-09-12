@@ -54,23 +54,31 @@ function sidebarSlideSelected(name, type) {
     `;
 }
 
+let titleEditor = `
+    <div class="VStack">
+        <input id="title" placeholder="Title" oninput="saveSlide()"/>
+        <input id="subtitle" placeholder="Subtitle" oninput="saveSlide()"/>
+    </div>
+    `;
+
 // --- SCRIPT LOGIC ---
 
 const sidebar = document.getElementById("sb");
-let currentSlide = 1; // FIX 1: Start at 1 to match slide numbering.
-let pres; // FIX 2: Declare 'pres' in the correct scope.
+const addSlideDlg = document.getElementById("addSlideDlg");
+let currentSlide = 1;
+let pres;
 
 function newPres(name) {
     pres = new Presentation(name, []);
-    pres.addSlide("Title", "Title");
-    renderSidebar(); // Changed function name for clarity
+    pres.addSlide("Title", "title");
+    requestAnimationFrame(renderSidebar);
+    requestAnimationFrame(showEditor);
 }
 
 function renderSidebar() {
-    let sidebarHTML = ""; // FIX 3: Build the HTML string first.
+    let sidebarHTML = "";
 
     pres.slides.forEach(presSlide => {
-        // FIX 4: Use correct properties 'title' and 'content.type'.
         const slideTitle = presSlide.title;
         const slideType = presSlide.content.type;
 
@@ -81,5 +89,35 @@ function renderSidebar() {
         }
     });
 
-    sidebar.innerHTML = sidebarHTML; // FIX 3 (cont.): Update the DOM only once.
-}   
+    sidebar.innerHTML = sidebarHTML;
+}
+
+function newBulletSlide() {
+    pres.addSlide("New Slide", "bullet");
+    renderSidebar(); // Add this back
+}
+
+function showEditor(){
+    // Get the slide using the correct 0-based index
+    const slide = pres.slides[currentSlide - 1];
+
+    // First, check if the slide actually exists, then check its type
+    if (slide && slide.content.type === "title") {
+        document.getElementById("editor").innerHTML = titleEditor;
+    }
+}
+
+function saveSlide() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return; // Safety check in case there's no slide
+
+    const titleInput = document.getElementById("title");
+    const subtitleInput = document.getElementById("subtitle");
+
+    // Update the data model
+    slide.title = titleInput.value || "Title";
+    slide.content.strings = [subtitleInput.value || ""]; // Storing an empty string is fine
+
+    // Re-render the sidebar to show the new title
+    renderSidebar();
+}

@@ -42,11 +42,24 @@
             </div>
         </div>
     </div>
-    <div class="body-split">
+    <dialog popover id="addSlideDlg">
+        <h1>Add a Slide</h1>
+        <div class="VStack">
+            <div class="HStack">
+                <button class="gallery-opt"><span class="material-symbols-rounded">ballot</span>Text and Bullet Points</button>
+                <p>Item 2</p>
+            </div>
+            <div class="HStack">
+                <p>Item 3</p>
+                <p>Item 4</p>
+            </div>
+        </div>
+    </dialog>
+    <div class="body-split" onload="document.querySelector('dialog').showModal()">
         <div class="sidebar" id="sb">
             <p>No Slides!</p>
         </div>
-        <div class="main-content">
+        <div class="main-content" id="editor">
             <!--edit area-->
         </div>
     </div>
