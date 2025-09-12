@@ -54,12 +54,66 @@ function sidebarSlideSelected(name, type) {
     `;
 }
 
+function midBullet(index){
+    return `
+        <div class="HStack">
+            <p>•</p>
+            <input class="bullet" id="b-${index}" placeholder="Bullet" oninput="saveBulletSlide()"/>
+            <button onclick="moveBulletUp(${index})"><span class="material-symbols-rounded">arrow_drop_up</span></button>
+            <button onclick="moveBulletDown(${index})"><span class="material-symbols-rounded">arrow_drop_down</span></button>
+            <button onclick="deleteBullet(${index})"><span class="material-symbols-rounded">delete</span></button>
+        </div>    
+    `;
+}
+
+function bottomBullet(index){
+    return `
+        <div class="HStack">
+            <p>•</p>
+            <input class="bullet" id="b-${index}" placeholder="Bullet" oninput="saveBulletSlide()"/>
+            <button onclick="moveBulletUp(${index})"><span class="material-symbols-rounded">arrow_drop_up</span></button>
+            <button onclick="moveBulletDown(${index})" disabled><span class="material-symbols-rounded">arrow_drop_down</span></button>
+            <button onclick="deleteBullet(${index})"><span class="material-symbols-rounded">delete</span></button>
+        </div> 
+    `;
+}
+
+let topBullet = `
+        <div class="HStack">
+            <p>•</p>
+            <input class="bullet" id="b-0" placeholder="Bullet" oninput="saveBulletSlide()"/>
+            <button onclick="moveBulletUp(0)" disabled><span class="material-symbols-rounded">arrow_drop_up</span></button>
+            <button onclick="moveBulletDown(0)"><span class="material-symbols-rounded">arrow_drop_down</span></button>
+            <button onclick="deleteBullet(0)" disabled><span class="material-symbols-rounded">delete</span></button>
+        </div>
+    `;
+
+let addBulletButton = `
+    <button onclick="addBullet()"><span class="material-symbols-rounded">format_list_bulleted_add</span></button>
+    `;
+
+let bulletTitle = `<input id="title" placeholder="Title" style="text-align: left;" oninput="saveBulletSlide()"/>`;
+
 let titleEditor = `
     <div class="VStack">
-        <input id="title" placeholder="Title" oninput="saveSlide()"/>
-        <input id="subtitle" placeholder="Subtitle" oninput="saveSlide()"/>
+        <input id="title" placeholder="Title" oninput="saveTitleSlide()"/>
+        <input id="subtitle" placeholder="Subtitle" oninput="saveTitleSlide()"/>
     </div>
     `;
+
+let emptyBulletSlide = `
+    <div class="VStack" id="bullets">
+        <input id="title" placeholder="Title" style="text-align: left;" oninput="saveBulletSlide()"/>
+        <div class="HStack">
+            <p>•</p>
+            <input class="bullet" id="b-0" placeholder="Bullet" oninput="saveBulletSlide()"/>
+            <button onclick="moveBulletUp(0)" disabled><span class="material-symbols-rounded">arrow_drop_up</span></button>
+            <button onclick="moveBulletDown(0)" disabled><span class="material-symbols-rounded">arrow_drop_down</span></button>
+            <button onclick="deleteBullet(0)" disabled><span class="material-symbols-rounded">delete</span></button>
+        </div>
+        <button onclick="addBullet()"><span class="material-symbols-rounded">format_list_bulleted_add</span></button>
+    </div>
+`;
 
 // --- SCRIPT LOGIC ---
 
@@ -109,7 +163,7 @@ function showEditor(){
     }
 }
 
-function saveSlide() {
+function saveTitleSlide() {
     const slide = pres.slides[currentSlide - 1];
     if (!slide) return; // Safety check in case there's no slide
 
