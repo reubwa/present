@@ -130,6 +130,7 @@ function newPres(name) {
     pres.addSlide("Title", "title");
     renderSidebar();
     showEditor();
+    document.title = name + " - Present";
 }
 
 function showSlideDlg(){
