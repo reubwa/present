@@ -1,0 +1,44 @@
+// present.js (Updated)
+
+import Reveal from './node_modules/reveal.js/dist/reveal.esm.js';
+import Markdown from './node_modules/reveal.js/plugin/markdown/markdown.esm.js';
+
+// 1. Get the presentation data from local storage
+const presData = localStorage.getItem('currentPresentation');
+
+if (presData) {
+    // 2. Parse the data from a string back into an object
+    const pres = JSON.parse(presData);
+
+    // 3. Build the HTML string for the slides
+    let slidesHTML = '';
+    pres.slides.forEach(presSlide => {
+        if (presSlide.content.type === "title") {
+            // Create a title slide
+            slidesHTML += `<section><h2>${presSlide.title}</h2><p>${presSlide.content.strings[0] || ''}</p></section>`;
+        } else if (presSlide.content.type === "bullet") {
+            // Create a bullet point slide
+            slidesHTML += `<section><h2>${presSlide.title}</h2><ul>`;
+            presSlide.content.strings.forEach(bullet => {
+                slidesHTML += `<li>${bullet}</li>`;
+            });
+            slidesHTML += `</ul></section>`;
+        }
+    });
+
+    // 4. Create the necessary reveal.js structure and add it to the page
+    const revealContainer = document.createElement('div');
+    revealContainer.classList.add('reveal');
+    revealContainer.innerHTML = `<div class="slides">${slidesHTML}</div>`;
+    document.body.appendChild(revealContainer);
+
+    // 5. Initialise the presentation
+    let deck = new Reveal({
+        plugins: [Markdown]
+    });
+    deck.initialize();
+
+} else {
+    // Show an error message if no presentation data was found
+    document.body.innerHTML = '<h1>No presentation data found. Please create a presentation first.</h1>';
+}

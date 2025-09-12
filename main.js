@@ -340,3 +340,34 @@ function openPresentation() {
     };
     input.click();
 }
+
+
+function launchPresentation() {
+    // For debugging: this message will appear in the browser's console when you click the button.
+    console.log("Attempting to launch presentation...");
+
+    if (pres) {
+        try {
+            // For debugging: shows the object you're about to save.
+            console.log("Saving presentation object:", pres);
+
+            // Save the entire presentation object to the browser's local storage
+            localStorage.setItem('currentPresentation', JSON.stringify(pres));
+
+            // For debugging: confirms the data was saved.
+            console.log("Successfully saved to localStorage.");
+
+            // Open the presentation page in a new tab
+            window.open('present.html', '_blank');
+
+        } catch (error) {
+            // For debugging: shows an error if the data could not be saved.
+            console.error("Failed to save to localStorage:", error);
+            alert('Could not save the presentation data. Please check the console for errors.');
+        }
+    } else {
+        // For debugging: shows why the presentation isn't launching.
+        console.error("Cannot launch: The 'pres' object is empty.");
+        alert('There is no presentation to show!');
+    }
+}
