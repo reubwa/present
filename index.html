@@ -8,7 +8,7 @@
 <body onload="newPres('test')">
     <div class="toolbar">
         <div class="toolbar-g">
-            <div class="toolbar-el">
+            <div class="toolbar-el" onclick="showNewPresDlg()">
                 <span class="material-symbols-rounded">note_add</span>
                 <p>New</p>
             </div>
@@ -132,6 +132,13 @@
                 <button class="gallery-opt" onclick="setTransitionSpeed('fast')"><span class="material-symbols-rounded">acute</span>Fast</button>
                 <button class="gallery-opt" onclick="setTransitionSpeed('slow')"><span class="material-symbols-rounded">slow_motion_video</span>Slow</button>
             </div>
+        </div>
+    </dialog>
+    <dialog popover id="newPresDlg">
+        <h1>New Presentation</h1>
+        <div class="HStack">
+            <input type="text" id="presNameInput" placeholder="Presentation Name" class="inp2"/>
+            <button class="opt-btn" onclick="newPresFromDlg()"><span class="material-symbols-rounded">arrow_right_alt</span></button>
         </div>
     </dialog>
     <div class="body-split">

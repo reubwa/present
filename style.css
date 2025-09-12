@@ -95,6 +95,7 @@ dialog::backdrop {
 }
 dialog h1{
     font-family: 'Noto Sans', sans-serif;
+    margin-left: 10px;
 }
 .gallery-opt{
     display: flex;
@@ -156,4 +157,15 @@ button:hover {
 }
 .HStack p{
     color: white;
+}
+.inp2{
+    font-size: 25px;
+    margin-left: 5px;
+}
+dialog .HStack {
+    margin-bottom: 10px;
+}
+
+.VStack, .HStack {
+    margin-left: 5px;
 }

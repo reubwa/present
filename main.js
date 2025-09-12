@@ -454,3 +454,15 @@ function showTransitionSpeedDlg(){
     const transitionSpeedDlg = document.getElementById("transitionSpeedDlg");
     transitionSpeedDlg.showPopover();
 }
+function newPresFromDlg(){
+    const presNameInput = document.getElementById("PresNameInput");
+    const presName = presNameInput.value.trim() || "Untitled Presentation";
+    newPres(presName);
+    const newPresDlg = document.getElementById("newPresDlg");
+    newPresDlg.hidePopover();
+    presNameInput.value = "";
+}
+function showNewPresDlg(){
+    const newPresDlg = document.getElementById("newPresDlg");
+    newPresDlg.showPopover();
+}
