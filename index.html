@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="style.css">
-    <script src="main.js"></script>
 </head>
-<body>
+<body onload="newPres('test')">
     <div class="toolbar">
         <div class="toolbar-g">
             <div class="toolbar-el">
@@ -44,12 +43,13 @@
         </div>
     </div>
     <div class="body-split">
-        <div class="sidebar">
-            <!--slides-->
+        <div class="sidebar" id="sb">
+            <p>No Slides!</p>
         </div>
         <div class="main-content">
             <!--edit area-->
         </div>
     </div>
+    <script src="main.js"></script>
 </body>
 </html>
