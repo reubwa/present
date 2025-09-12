@@ -45,6 +45,20 @@
                 <p>Present</p>
             </div>
         </div>
+        <div class="toolbar-g">
+            <div class="toolbar-el" onclick="showEntryTransitionDlg()">
+                <span class="material-symbols-rounded">arrow_and_edge</span>
+                <p>Entry Transition</p>
+            </div>
+            <div class="toolbar-el" onclick="showExitTransitionDlg()">
+                <span class="material-symbols-rounded">exit_to_app</span>
+                <p>Exit Transition</p>
+            </div>
+            <div class="toolbar-el" onclick="showTransitionSpeedDlg()">
+                <span class="material-symbols-rounded">speed</span>
+                <p>Transition Speed</p>
+            </div>
+        </div>
     </div>
     <dialog popover id="addSlideDlg">
         <h1>Add a Slide</h1>
@@ -81,6 +95,42 @@
                 <button class="gallery-opt" onclick="changeTheme('solarized')"><img src="/theme_previews/solarized.png" class="gallery-prev"/></button>
                 <button class="gallery-opt" onclick="changeTheme('white')"><img src="/theme_previews/white.png" class="gallery-prev"/></button>
                 <button class="gallery-opt" onclick="changeTheme('dracula')"><img src="/theme_previews/dracula.png" class="gallery-prev"/></button>
+            </div>
+        </div>
+    </dialog>
+    <dialog popover id="transitionInDlg">
+        <h1>Entry Transition</h1>
+        <div class="VStack">
+            <div class="HStack">
+                <button class="gallery-opt" onclick="setEntryTransition('none')"><span class="material-symbols-rounded">block</span>None</button>
+                <button class="gallery-opt" onclick="setEntryTransition('fade')"><span class="material-symbols-rounded">transition_fade</span>Fade</button>
+                <button class="gallery-opt" onclick="setEntryTransition('slide')"><span class="material-symbols-rounded">transition_slide</span>Slide</button>
+                <button class="gallery-opt" onclick="setEntryTransition('convex')"><span class="material-symbols-rounded">panorama_photosphere</span>Convex</button>
+                <button class="gallery-opt" onclick="setEntryTransition('concave')"><span class="material-symbols-rounded">panorama_vertical</span>Concave</button>
+                <button class="gallery-opt" onclick="setEntryTransition('zoom')"><span class="material-symbols-rounded">feature_search</span>Zoom</button>
+            </div>
+        </div>
+    </dialog>
+    <dialog popover id="transitionOutDlg">
+        <h1>Exit Transition</h1>
+        <div class="VStack">
+            <div class="HStack">
+                <button class="gallery-opt" onclick="setExitTransition('none')"><span class="material-symbols-rounded">block</span>None</button>
+                <button class="gallery-opt" onclick="setExitTransition('fade')"><span class="material-symbols-rounded">transition_fade</span>Fade</button>
+                <button class="gallery-opt" onclick="setExitTransition('slide')"><span class="material-symbols-rounded">transition_slide</span>Slide</button>
+                <button class="gallery-opt" onclick="setExitTransition('convex')"><span class="material-symbols-rounded">panorama_photosphere</span>Convex</button>
+                <button class="gallery-opt" onclick="setExitTransition('concave')"><span class="material-symbols-rounded">panorama_vertical</span>Concave</button>
+                <button class="gallery-opt" onclick="setExitTransition('zoom')"><span class="material-symbols-rounded">feature_search</span>Zoom</button>
+            </div>
+        </div>
+    </dialog>
+    <dialog popover id="transitionSpeedDlg">
+        <h1>Transition Speed</h1>
+        <div class="VStack">
+            <div class="HStack">
+                <button class="gallery-opt" onclick="setTransitionSpeed('default')"><span class="material-symbols-rounded">speed</span>Default</button>
+                <button class="gallery-opt" onclick="setTransitionSpeed('fast')"><span class="material-symbols-rounded">acute</span>Fast</button>
+                <button class="gallery-opt" onclick="setTransitionSpeed('slow')"><span class="material-symbols-rounded">slow_motion_video</span>Slow</button>
             </div>
         </div>
     </dialog>

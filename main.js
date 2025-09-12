@@ -1,8 +1,11 @@
 class Slide {
-    constructor(title, content, number) {
+    constructor(title, content, number, entryTransition, exitTransition, transitionSpeed) {
         this.title = title;
         this.content = content;
         this.number = number;
+        this.entryTransition = entryTransition || 'fade';
+        this.exitTransition = exitTransition || 'fade';
+        this.transitionSpeed = transitionSpeed || 'default';
     }
 }
 
@@ -329,7 +332,7 @@ function openPresentation() {
         reader.onload = event => {
             try {
                 const json = JSON.parse(event.target.result);
-                pres = new Presentation(json.title, json.theme, json.slides.map(s => new Slide(s.title, new SlideContent(s.content.type, s.content.strings), s.number)));
+                pres = new Presentation(json.title, json.theme, json.slides.map(s => new Slide(s.title, s.transitionSpeed, s.entryTransition, s.exitTransition, new SlideContent(s.content.type, s.content.strings), s.number)));
                 currentSlide = 1;
                 renderSidebar();
                 showEditor();
@@ -383,4 +386,38 @@ function changeTheme(theme){
 function showThemeDlg(){
     const themeDlg = document.getElementById("themeDlg");
     themeDlg.showPopover();
+}
+
+function setEntryTransition(transition){
+    const slide = pres.slides[currentSlide - 1];
+    if(!slide) return;
+    slide.entryTransition = transition;
+    const transitionInDlg = document.getElementById("transitionInDlg");
+    transitionInDlg.hidePopover();
+}
+function setExitTransition(transition){
+    const slide = pres.slides[currentSlide - 1];
+    if(!slide) return;
+    slide.exitTransition = transition;
+    const transitionOutDlg = document.getElementById("transitionOutDlg");
+    transitionOutDlg.hidePopover();
+}
+function showEntryTransitionDlg(){
+    const transitionInDlg = document.getElementById("transitionInDlg");
+    transitionInDlg.showPopover();
+}
+function showExitTransitionDlg(){
+    const transitionOutDlg = document.getElementById("transitionOutDlg");
+    transitionOutDlg.showPopover();
+}
+function setTransitionSpeed(speed){
+    const slide = pres.slides[currentSlide - 1];
+    if(!slide) return;
+    slide.transitionSpeed = speed;
+    const transitionSpeedDlg = document.getElementById("transitionSpeedDlg");
+    transitionSpeedDlg.hidePopover();
+}
+function showTransitionSpeedDlg(){
+    const transitionSpeedDlg = document.getElementById("transitionSpeedDlg");
+    transitionSpeedDlg.showPopover();
 }
