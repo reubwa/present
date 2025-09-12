@@ -295,3 +295,12 @@ function removeSlide() {
     renderSidebar();
     showEditor();
 }
+
+function newTitleSlide() {
+    pres.addSlide("New Slide", "title");
+    currentSlide = pres.slides.length; // Select the new slide
+    const newSlideDlg = document.getElementById("addSlideDlg");
+    newSlideDlg.hidePopover();
+    renderSidebar();
+    showEditor();
+}
