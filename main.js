@@ -89,7 +89,7 @@ function bottomBullet(index, text) {
             <p>•</p>
             <input class="bullet" id="b-${index}" value="${text}" placeholder="Bullet" oninput="saveBulletSlide()"/>
             <button onclick="moveBulletUp(${index})"><span class="material-symbols-rounded">arrow_drop_up</span></button>
-            <button onclick="moveBulletDown(${index})" disabled><span class="material-symbols-rounded">arrow_drop_down</span></button>
+            <button onclick="moveBulletDown(${index})" id="b-dis"><span class="material-symbols-rounded">arrow_drop_down</span></button>
             <button onclick="deleteBullet(${index})"><span class="material-symbols-rounded">delete</span></button>
         </div> 
     `;
@@ -101,7 +101,7 @@ function topBullet(index, text){
         <div class="HStack">
             <p>•</p>
             <input class="bullet" id="b-${index}" value="${text}" placeholder="Bullet" oninput="saveBulletSlide()"/>
-            <button onclick="moveBulletUp(${index})" disabled><span class="material-symbols-rounded">arrow_drop_up</span></button>
+            <button onclick="moveBulletUp(${index})" id="b-dis"><span class="material-symbols-rounded">arrow_drop_up</span></button>
             <button onclick="moveBulletDown(${index})" ${isOnlyBullet ? 'disabled' : ''}><span class="material-symbols-rounded">arrow_drop_down</span></button>
             <button onclick="deleteBullet(${index})" ${isOnlyBullet ? 'disabled' : ''}><span class="material-symbols-rounded">delete</span></button>
         </div>

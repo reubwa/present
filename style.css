@@ -113,6 +113,7 @@ dialog h1{
 #title{
     font-size: 100px;
     text-align: center;
+    color: white;
 }
 #subtitle{
     font-size: 50px;
@@ -135,4 +136,24 @@ input{
     background: none;
     border: none;
     margin:10px;
+}
+button {
+    background-color: rgb(46, 68, 68);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 10px;
+}
+button:hover {
+    cursor: pointer;
+    background-color: rgb(66, 98, 98);
+}
+#b-dis{
+    background-color: rgb(92, 136, 136);
+}
+#b-dis:hover{
+    cursor: auto;
+}
+.HStack p{
+    color: white;
 }
