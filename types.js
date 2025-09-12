@@ -31,5 +31,4 @@ class Presentation {
     }
 }
 
-const pres = new Presentation("New Presentation",[]);
-pres.addSlide("Title","Title");
+export { Slide, SlideContent, Presentation };
