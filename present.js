@@ -42,3 +42,9 @@ if (presData) {
     // Show an error message if no presentation data was found
     document.body.innerHTML = '<h1>No presentation data found. Please create a presentation first.</h1>';
 }
+
+const theme = localStorage.getItem('theme') || 'white';
+
+if(theme){
+    document.head.innerHTML += `<link rel="stylesheet" href="./node_modules/reveal.js/dist/theme/${theme}.css" id="theme">`;
+}

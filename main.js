@@ -371,3 +371,14 @@ function launchPresentation() {
         alert('There is no presentation to show!');
     }
 }
+
+function changeTheme(theme){
+    localStorage.setItem('theme', theme);
+    const themeDlg = document.getElementById("themeDlg");
+    themeDlg.hidePopover();
+}
+
+function showThemeDlg(){
+    const themeDlg = document.getElementById("themeDlg");
+    themeDlg.showPopover();
+}

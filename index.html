@@ -30,6 +30,10 @@
                 <span class="material-symbols-rounded">variable_remove</span>
                 <p>Remove Slide</p>
             </div>
+            <div class="toolbar-el" onclick="showThemeDlg()">
+                <span class="material-symbols-rounded">styler</span>
+                <p>Themes</p>
+            </div>
         </div>
         <div class="toolbar-g">
             <div class="toolbar-el">
@@ -52,6 +56,31 @@
             <div class="HStack">
                 <p>Item 3</p>
                 <p>Item 4</p>
+            </div>
+        </div>
+    </dialog>
+    <dialog popover id="themeDlg">
+        <h1>Pick a Theme</h1>
+        <div class="VStack">
+            <div class="HStack">
+                <button class="gallery-opt" onclick="changeTheme('beige')"><img src="/theme_previews/beige.png" class="gallery-prev"/></button>
+                <button class="gallery-opt" onclick="changeTheme('blood')"><img src="/theme_previews/blood.png" class="gallery-prev"/></button>
+                <button class="gallery-opt" onclick="changeTheme('black')"><img src="/theme_previews/black.png" class="gallery-prev"/></button>
+            </div>
+            <div class="HStack">
+                <button class="gallery-opt" onclick="changeTheme('league')"><img src="/theme_previews/league.png" class="gallery-prev"/></button>
+                <button class="gallery-opt" onclick="changeTheme('moon')"><img src="/theme_previews/moon.png" class="gallery-prev"/></button>
+                <button class="gallery-opt" onclick="changeTheme('night')"><img src="/theme_previews/night.png" class="gallery-prev"/></button>
+            </div>
+            <div class="HStack">
+                <button class="gallery-opt" onclick="changeTheme('serif')"><img src="/theme_previews/serif.png" class="gallery-prev"/></button>
+                <button class="gallery-opt" onclick="changeTheme('simple')"><img src="/theme_previews/simple.png" class="gallery-prev"/></button>
+                <button class="gallery-opt" onclick="changeTheme('sky')"><img src="/theme_previews/sky.png" class="gallery-prev"/></button>
+            </div>
+            <div class="HStack">
+                <button class="gallery-opt" onclick="changeTheme('solarized')"><img src="/theme_previews/solarized.png" class="gallery-prev"/></button>
+                <button class="gallery-opt" onclick="changeTheme('white')"><img src="/theme_previews/white.png" class="gallery-prev"/></button>
+                <button class="gallery-opt" onclick="changeTheme('dracula')"><img src="/theme_previews/dracula.png" class="gallery-prev"/></button>
             </div>
         </div>
     </dialog>
