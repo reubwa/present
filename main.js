@@ -14,9 +14,10 @@ class SlideContent {
 }
 
 class Presentation {
-    constructor(title, slides = []) {
+    constructor(title, theme, slides = []) {
         this.title = title;
         this.slides = slides;
+        this.theme = theme || 'white';
     }
 
     addSlide(title, type) {
@@ -328,7 +329,7 @@ function openPresentation() {
         reader.onload = event => {
             try {
                 const json = JSON.parse(event.target.result);
-                pres = new Presentation(json.title, json.slides.map(s => new Slide(s.title, new SlideContent(s.content.type, s.content.strings), s.number)));
+                pres = new Presentation(json.title, json.theme, json.slides.map(s => new Slide(s.title, new SlideContent(s.content.type, s.content.strings), s.number)));
                 currentSlide = 1;
                 renderSidebar();
                 showEditor();
@@ -374,6 +375,7 @@ function launchPresentation() {
 
 function changeTheme(theme){
     localStorage.setItem('theme', theme);
+    pres.theme = theme;
     const themeDlg = document.getElementById("themeDlg");
     themeDlg.hidePopover();
 }
