@@ -48,3 +48,9 @@ const theme = localStorage.getItem('theme') || 'white';
 if(theme){
     document.head.innerHTML += `<link rel="stylesheet" href="./node_modules/reveal.js/dist/theme/${theme}.css" id="theme">`;
 }
+let params = new URL(document.location.toString());
+const URLSearchParams = params.searchParams;
+if(URLSearchParams.has('print-pdf') === true){
+    document.head.innerHTML += `<link rel="stylesheet" href="./node_modules/reveal.js/dist/theme/print/pdf.css" type="text/css" media="print">`;
+    window.print();
+}

@@ -27,7 +27,7 @@ class Presentation {
         const slideNumber = this.slides.length + 1;
         // REFINEMENT: Ensure new bullet slides start with one empty string.
         const initialStrings = type === 'bullet' ? [''] : [];
-        const newSlide = new Slide(title, new SlideContent(type, initialStrings), slideNumber);
+        const newSlide = new Slide(title, new SlideContent(type, initialStrings), slideNumber, 'fade', 'fade', 'default');
         this.slides.push(newSlide);
         return newSlide;
     }
@@ -332,7 +332,7 @@ function openPresentation() {
         reader.onload = event => {
             try {
                 const json = JSON.parse(event.target.result);
-                pres = new Presentation(json.title, json.theme, json.slides.map(s => new Slide(s.title, s.transitionSpeed, s.entryTransition, s.exitTransition, new SlideContent(s.content.type, s.content.strings), s.number)));
+                pres = new Presentation(json.title, json.theme, json.slides.map(s => new Slide(s.title, new SlideContent(s.content.type, s.content.strings), s.number, s.entryTransition, s.exitTransition, s.transitionSpeed)));
                 currentSlide = 1;
                 renderSidebar();
                 showEditor();
@@ -363,6 +363,36 @@ function launchPresentation() {
 
             // Open the presentation page in a new tab
             window.open('present.html', '_blank');
+
+        } catch (error) {
+            // For debugging: shows an error if the data could not be saved.
+            console.error("Failed to save to localStorage:", error);
+            alert('Could not save the presentation data. Please check the console for errors.');
+        }
+    } else {
+        // For debugging: shows why the presentation isn't launching.
+        console.error("Cannot launch: The 'pres' object is empty.");
+        alert('There is no presentation to show!');
+    }
+}
+
+function exportPresentation() {
+    // For debugging: this message will appear in the browser's console when you click the button.
+    console.log("Attempting to launch presentation...");
+
+    if (pres) {
+        try {
+            // For debugging: shows the object you're about to save.
+            console.log("Saving presentation object:", pres);
+
+            // Save the entire presentation object to the browser's local storage
+            localStorage.setItem('currentPresentation', JSON.stringify(pres));
+
+            // For debugging: confirms the data was saved.
+            console.log("Successfully saved to localStorage.");
+
+            // Open the presentation page in a new tab
+            window.open('present.html?print-pdf', '_blank');
 
         } catch (error) {
             // For debugging: shows an error if the data could not be saved.
