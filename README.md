@@ -3,4 +3,6 @@ Let's face it, a lot of presentations consist of a title slide and a few slides 
 
 Please note: the export feature may only work as intended in Google Chrome or Chromium-based browsers.
 
+**Possible with the help of [reveal.js](https://revealjs.com)**
+
 Try this in your browser [here](https://reubwa.github.io/present/)
