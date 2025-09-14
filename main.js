@@ -50,6 +50,8 @@ function typeToIcon(type) {
             return "format_list_bulleted";
         case "markdown":
             return "markdown";
+        case "image":
+            return "image";
         default:
             return "description";
     }
@@ -128,6 +130,13 @@ let markdownEditor = `
     </div>
     `;
 
+let imageEditor = `
+    <div class="VStack">
+        <input id="title" placeholder="Title" style="text-align: left;" oninput="saveImageSlide()"/>
+        <input id="image-url" placeholder="Image URL" oninput="saveImageSlide()"/>
+    </div>
+    `;
+
 // --- SCRIPT LOGIC ---
 
 const sidebar = document.getElementById("sb");
@@ -182,6 +191,8 @@ function showEditor() {
         showBulletEditor();
     } else if (slide.content.type === "markdown") {
         showMarkdownEditor();
+    } else if (slide.content.type === "image") {
+        showImageEditor();
     } else {
         document.getElementById("editor").innerHTML = "<p>Unknown slide type.</p>";
     }
@@ -509,6 +520,49 @@ function saveMarkdownSlide() {
 
 function newMarkdownSlide() {
     pres.addSlide("Markdown", "markdown");
+    currentSlide = pres.slides.length; // Select the new slide
+    const newSlideDlg = document.getElementById("addSlideDlg");
+    newSlideDlg.hidePopover();
+    renderSidebar();
+    showEditor();
+}
+
+function showImageEditor() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+    
+    document.getElementById("editor").innerHTML = imageEditor;
+    const imageUrlInput = document.getElementById("image-url");
+    const titleInput = document.getElementById("title");
+    titleInput.value = slide.title;
+    imageUrlInput.value = slide.content.strings[0] || "";
+}
+
+function saveImageSlide() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+
+    const imageUrlInput = document.getElementById("image-url");
+    const titleInput = document.getElementById("title");
+    titleInput.value = slide.title;
+    imageUrlInput.value = slide.content.strings[0] || "";
+}
+
+function saveImageSlide() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+
+    const imageUrlInput = document.getElementById("image-url");
+    const titleInput = document.getElementById("title");
+
+    slide.title = titleInput.value || "Title";
+    slide.content.strings = [imageUrlInput.value || ""];
+
+    renderSidebar();
+}
+
+function newImageSlide() {
+    pres.addSlide("Image", "image");
     currentSlide = pres.slides.length; // Select the new slide
     const newSlideDlg = document.getElementById("addSlideDlg");
     newSlideDlg.hidePopover();

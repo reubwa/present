@@ -26,6 +26,8 @@ if (presData) {
         } else if (presSlide.content.type === "markdown") {
             // Create a markdown slide
             slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''} data-markdown><script type="text/template">${presSlide.content.strings[0] || ''}</script></section>`;
+        } else if (presSlide.content.type === "image") {
+            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''} data-background-image="${presSlide.content.strings[0] || ''}"><h2>${presSlide.title}</h2></section>`;
         }
     });
 

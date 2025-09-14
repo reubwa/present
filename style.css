@@ -183,3 +183,7 @@ dialog .HStack {
     padding-left: 15px;
     text-align: left;
 }
+
+#image-url {
+    font-size: 25px;
+}
