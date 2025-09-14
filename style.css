@@ -171,7 +171,7 @@ dialog .HStack {
     margin-left: 5px;
 }
 
-#md-editor, #maths-editor {
+#md-editor, #maths-editor, #code-editor {
     background: none;
     border: none;
     color: white;
@@ -182,6 +182,12 @@ dialog .HStack {
     resize: none;
     padding-left: 15px;
     text-align: left;
+}
+
+#highlight {
+    margin-left: 5px;
+    color: white;
+    font-family: 'Noto Sans Mono', monospace;
 }
 
 #image-url {

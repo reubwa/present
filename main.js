@@ -54,6 +54,8 @@ function typeToIcon(type) {
             return "image";
         case "maths":
             return "calculate";
+        case "code":
+            return "code";
         default:
             return "description";
     }
@@ -146,6 +148,13 @@ let mathsEditor = `
     </div>
     `;
 
+let codeEditor = `
+    <div class="VStack">
+            <input id="title" placeholder="Title" oninput="saveCodeSlide()" style="text-align: left;"/>
+            <textarea id="code-editor" placeholder="Code" oninput="saveCodeSlide()"></textarea>
+    </div>
+    `;
+
 // --- SCRIPT LOGIC ---
 
 const sidebar = document.getElementById("sb");
@@ -204,6 +213,8 @@ function showEditor() {
         showImageEditor();
     } else if (slide.content.type === "maths") {
         showMathsEditor();
+    } else if (slide.content.type === "code") {
+        showCodeEditor();
     } else {
         document.getElementById("editor").innerHTML = "<p>Unknown slide type.</p>";
     }
@@ -607,6 +618,39 @@ function saveMathsSlide() {
 
 function newMathsSlide() {
     pres.addSlide("Maths", "maths");
+    currentSlide = pres.slides.length; // Select the new slide
+    const newSlideDlg = document.getElementById("addSlideDlg");
+    newSlideDlg.hidePopover();
+    renderSidebar();
+    showEditor();
+}
+
+function showCodeEditor() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+    
+    document.getElementById("editor").innerHTML = codeEditor;
+    const titleInput = document.getElementById("title");
+    const codeEditorInput = document.getElementById("code-editor");
+    titleInput.value = slide.title;
+    codeEditorInput.value = slide.content.strings[0] || "";
+}
+
+function saveCodeSlide() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+
+    const titleInput = document.getElementById("title");
+    const codeEditorInput = document.getElementById("code-editor");
+
+    slide.title = titleInput.value || "Title";
+    slide.content.strings = [codeEditorInput.value || ""];
+
+    renderSidebar();
+}
+
+function newCodeSlide() {
+    pres.addSlide("Code", "code");
     currentSlide = pres.slides.length; // Select the new slide
     const newSlideDlg = document.getElementById("addSlideDlg");
     newSlideDlg.hidePopover();

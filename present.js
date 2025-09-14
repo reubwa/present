@@ -3,6 +3,7 @@
 import Reveal from './node_modules/reveal.js/dist/reveal.esm.js';
 import Markdown from './node_modules/reveal.js/plugin/markdown/markdown.esm.js';
 import RevealMath from './node_modules/reveal.js/plugin/math/math.esm.js';
+import Highlight from './node_modules/reveal.js/plugin/highlight/highlight.esm.js';
 
 // 1. Get the presentation data from local storage
 const presData = localStorage.getItem('currentPresentation');
@@ -16,21 +17,28 @@ if (presData) {
     pres.slides.forEach(presSlide => {
         if (presSlide.content.type === "title") {
             // Create a title slide
-            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''}><h2>${presSlide.title}</h2><p>${presSlide.content.strings[0] || ''}</p></section>`;
+            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}"><h2>${presSlide.title}</h2><p>${presSlide.content.strings[0] || ''}</p></section>`;
         } else if (presSlide.content.type === "bullet") {
             // Create a bullet point slide
-            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''}><h2>${presSlide.title}</h2><ul>`;
+            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}"><h2>${presSlide.title}</h2><ul>`;
             presSlide.content.strings.forEach(bullet => {
                 slidesHTML += `<li>${bullet}</li>`;
             });
             slidesHTML += `</ul></section>`;
         } else if (presSlide.content.type === "markdown") {
             // Create a markdown slide
-            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''} data-markdown><script type="text/template">${presSlide.content.strings[0] || ''}</script></section>`;
+            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" data-markdown><script type="text/template">${presSlide.content.strings[0] || ''}</script></section>`;
         } else if (presSlide.content.type === "image") {
-            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''} data-background-image="${presSlide.content.strings[0] || ''}"><h2>${presSlide.title}</h2></section>`;
+            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" data-background-image="${presSlide.content.strings[0] || ''}"><h2>${presSlide.title}</h2></section>`;
         } else if (presSlide.content.type === "maths") {
-            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''}><h2>${presSlide.title}</h2>${presSlide.content.strings[0] || ''}</section>`;
+            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}"><h2>${presSlide.title}</h2>${presSlide.content.strings[0] || ''}</section>`;
+        } else if (presSlide.content.type === "code") {
+            // Create a code slide
+            // The data-line-numbers attribute is what enables the line numbers
+            slidesHTML += `<section>
+                <h2>${presSlide.title}</h2>
+                <pre><code>${presSlide.content.strings[0]}</code></pre>
+            </section>`;
         }
     });
 
@@ -42,7 +50,7 @@ if (presData) {
 
     // 5. Initialise the presentation
     let deck = new Reveal({
-        plugins: [Markdown, RevealMath.KaTeX]
+        plugins: [Markdown, RevealMath.KaTeX, Highlight]
     });
     deck.initialize();
 
