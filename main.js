@@ -662,3 +662,22 @@ function showAboutDlg(){
     const aboutDlg = document.getElementById("aboutDlg");
     aboutDlg.showPopover();
 }
+
+function duplicateSlide() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+
+    const newSlide = new Slide(
+        slide.title + " (Copy)",
+        new SlideContent(slide.content.type, [...slide.content.strings]),
+        pres.slides.length + 1,
+        slide.entryTransition,
+        slide.exitTransition,
+        slide.transitionSpeed
+    );
+
+    pres.slides.push(newSlide);
+    currentSlide = pres.slides.length; // Select the new duplicated slide
+    renderSidebar();
+    showEditor();
+}
