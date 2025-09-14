@@ -657,3 +657,8 @@ function newCodeSlide() {
     renderSidebar();
     showEditor();
 }
+
+function showAboutDlg(){
+    const aboutDlg = document.getElementById("aboutDlg");
+    aboutDlg.showPopover();
+}

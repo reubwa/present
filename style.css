@@ -80,7 +80,7 @@
     flex-direction: row;
     gap: 10px;
 }
-.sidebar p {
+.sidebar p, dialog p {
     font-family: 'Noto Sans', sans-serif;
 }
 dialog {
@@ -192,4 +192,8 @@ dialog .HStack {
 
 #image-url {
     font-size: 25px;
+}
+
+a {
+    color: lightblue;
 }

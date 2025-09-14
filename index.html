@@ -45,6 +45,12 @@
                 <p>Present</p>
             </div>
         </div>
+        <div class="toolbar-g">
+            <div class="toolbar-el" onclick="showAboutDlg()">
+                <span class="material-symbols-rounded">info</span>
+                <p>About</p>
+            </div>
+        </div>
     </div>
     <dialog popover id="addSlideDlg">
         <h1>Add a Slide</h1>
@@ -127,6 +133,24 @@
         <div class="HStack">
             <input type="text" id="presNameInput" placeholder="Presentation Name" class="inp2"/>
             <button class="opt-btn" onclick="newPresFromDlg()"><span class="material-symbols-rounded">arrow_right_alt</span></button>
+        </div>
+    </dialog>
+    <dialog popover id="aboutDlg">
+        <div class="VStack">
+            <p>Present ©2025 Reuben Waring, licensed under the Apache 2 Licence.</p>
+            <p>Powered by <a href="https://revealjs.com/" target="_blank">Reveal.js</a>, licensed under the MIT Licence. Copyright (c) 2017 Dmitry Korolev.</p>
+            <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
+            <p>Maths powered by <a href="https://www.mathjax.org/" target="_blank">MathJax</a>.</p>
+            <p>Icons provided by <a href="https://material.io/resources/icons/" target="_blank">Material Icons</a>.</p>
+            <p>Code Highlighting powered by <a href="https://highlightjs.org/" target="_blank">Highlight.js</a>.</p>
+            <p>Countdown provided by <a href="https://github.com/christer-eriksson/reveal_countdown" target="_blank">christer-eriksson/reveal_countdown</a>.</p>
+            <p>GitHub Repository: <a href="https://github.com/reubwa/present" target="_blank">https://github.com/reubwa/present</a>.</p>
         </div>
     </dialog>
     <div class="body-split">
