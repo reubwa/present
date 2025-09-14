@@ -45,20 +45,6 @@
                 <p>Present</p>
             </div>
         </div>
-        <div class="toolbar-g">
-            <div class="toolbar-el" onclick="showEntryTransitionDlg()">
-                <span class="material-symbols-rounded">arrow_and_edge</span>
-                <p>Entry Transition</p>
-            </div>
-            <div class="toolbar-el" onclick="showExitTransitionDlg()">
-                <span class="material-symbols-rounded">exit_to_app</span>
-                <p>Exit Transition</p>
-            </div>
-            <div class="toolbar-el" onclick="showTransitionSpeedDlg()">
-                <span class="material-symbols-rounded">speed</span>
-                <p>Transition Speed</p>
-            </div>
-        </div>
     </div>
     <dialog popover id="addSlideDlg">
         <h1>Add a Slide</h1>
@@ -147,6 +133,19 @@
         </div>
         <div class="main-content" id="editor">
             <!--edit area-->
+        </div>
+        <div class="sidebar" id="inspector">
+            <div class="HStack">
+                <button onclick="showEntryTransitionDlg()" title="Entry Transition">
+                    <span class="material-symbols-rounded">arrow_and_edge</span>
+                </button>
+                <button onclick="showExitTransitionDlg()" title="Exit Transition">
+                    <span class="material-symbols-rounded">exit_to_app</span>
+                </button>
+                <button onclick="showTransitionSpeedDlg()" title="Transition Speed">
+                    <span class="material-symbols-rounded">speed</span>
+                </button>
+            </div>
         </div>
     </div>
     <script src="main.js"></script>
