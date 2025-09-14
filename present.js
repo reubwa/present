@@ -15,17 +15,17 @@ if (presData) {
     pres.slides.forEach(presSlide => {
         if (presSlide.content.type === "title") {
             // Create a title slide
-            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}"><h2>${presSlide.title}</h2><p>${presSlide.content.strings[0] || ''}</p></section>`;
+            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''}><h2>${presSlide.title}</h2><p>${presSlide.content.strings[0] || ''}</p></section>`;
         } else if (presSlide.content.type === "bullet") {
             // Create a bullet point slide
-            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}"><h2>${presSlide.title}</h2><ul>`;
+            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''}><h2>${presSlide.title}</h2><ul>`;
             presSlide.content.strings.forEach(bullet => {
                 slidesHTML += `<li>${bullet}</li>`;
             });
             slidesHTML += `</ul></section>`;
         } else if (presSlide.content.type === "markdown") {
             // Create a markdown slide
-            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" data-markdown><script type="text/template">${presSlide.content.strings[0] || ''}</script></section>`;
+            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''} data-markdown><script type="text/template">${presSlide.content.strings[0] || ''}</script></section>`;
         }
     });
 

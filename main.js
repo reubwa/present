@@ -1,12 +1,13 @@
 
 class Slide {
-    constructor(title, content, number, entryTransition, exitTransition, transitionSpeed) {
+    constructor(title, content, number, entryTransition, exitTransition, transitionSpeed, autoAnimate) {
         this.title = title;
         this.content = content;
         this.number = number;
         this.entryTransition = entryTransition || 'fade';
         this.exitTransition = exitTransition || 'fade';
         this.transitionSpeed = transitionSpeed || 'default';
+        this.autoAnimate = autoAnimate || false;
     }
 }
 
@@ -349,7 +350,7 @@ function openPresentation() {
         reader.onload = event => {
             try {
                 const json = JSON.parse(event.target.result);
-                pres = new Presentation(json.title, json.theme, json.slides.map(s => new Slide(s.title, new SlideContent(s.content.type, s.content.strings), s.number, s.entryTransition, s.exitTransition, s.transitionSpeed)));
+                pres = new Presentation(json.title, json.theme, json.slides.map(s => new Slide(s.title, new SlideContent(s.content.type, s.content.strings), s.number, s.entryTransition, s.exitTransition, s.transitionSpeed, s.autoAnimate)));
                 currentSlide = 1;
                 renderSidebar();
                 showEditor();
@@ -514,3 +515,24 @@ function newMarkdownSlide() {
     renderSidebar();
     showEditor();
 }
+
+function toggleAutoAnimate() {
+    const checkbox = document.getElementById("autoAnimateCheckbox");
+    const slide = pres.slides[currentSlide - 1];
+    if(!slide) return;
+    if(checkbox.checked){
+        slide.autoAnimate = true;
+    } else {
+        slide.autoAnimate = false;
+    }
+}
+// On page load, check the auto-animate setting
+window.onload = function() {
+    const autoAnimateSetting = localStorage.getItem('autoAnimate');
+    const checkbox = document.getElementById("autoAnimateCheckbox");
+    if(autoAnimateSetting === 'true'){
+        checkbox.checked = true;
+    } else {
+        checkbox.checked = false;
+    }
+};
