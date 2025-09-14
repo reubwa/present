@@ -23,6 +23,9 @@ if (presData) {
                 slidesHTML += `<li>${bullet}</li>`;
             });
             slidesHTML += `</ul></section>`;
+        } else if (presSlide.content.type === "markdown") {
+            // Create a markdown slide
+            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" data-markdown><script type="text/template">${presSlide.content.strings[0] || ''}</script></section>`;
         }
     });
 

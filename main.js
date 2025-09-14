@@ -1,3 +1,4 @@
+
 class Slide {
     constructor(title, content, number, entryTransition, exitTransition, transitionSpeed) {
         this.title = title;
@@ -47,6 +48,8 @@ function typeToIcon(type) {
             return "title";
         case "bullet":
             return "format_list_bulleted";
+        case "markdown":
+            return "markdown";
         default:
             return "description";
     }
@@ -119,6 +122,12 @@ let titleEditor = `
     </div>
     `;
 
+let markdownEditor = `
+    <div class="VStack">
+            <textarea id="md-editor" placeholder="Markdown" oninput="saveMarkdownSlide()"></textarea>
+    </div>
+    `;
+
 // --- SCRIPT LOGIC ---
 
 const sidebar = document.getElementById("sb");
@@ -171,6 +180,10 @@ function showEditor() {
         showTitleEditor();
     } else if (slide.content.type === "bullet") {
         showBulletEditor();
+    } else if (slide.content.type === "markdown") {
+        showMarkdownEditor();
+    } else {
+        document.getElementById("editor").innerHTML = "<p>Unknown slide type.</p>";
     }
 }
 
@@ -466,4 +479,38 @@ function newPresFromDlg(){
 function showNewPresDlg(){
     const newPresDlg = document.getElementById("newPresDlg");
     newPresDlg.showPopover();
+}
+
+function showMarkdownEditor() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+    
+    document.getElementById("editor").innerHTML = markdownEditor;
+    const titleInput = document.getElementById("title");
+    const mdEditor = document.getElementById("md-editor");
+    titleInput.value = slide.title;
+    mdEditor.value = slide.content.strings[0] || "";
+}
+
+function saveMarkdownSlide() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+
+    const titleInput = document.getElementById("title");
+    const mdEditor = document.getElementById("md-editor");
+
+    slide.title = titleInput.value || "Title";
+
+    slide.content.strings = [mdEditor.value.replace(/</g, "&lt;").replace(/>/g, "&gt;") || ""];
+
+    renderSidebar();
+}
+
+function newMarkdownSlide() {
+    pres.addSlide("Markdown", "markdown");
+    currentSlide = pres.slides.length; // Select the new slide
+    const newSlideDlg = document.getElementById("addSlideDlg");
+    newSlideDlg.hidePopover();
+    renderSidebar();
+    showEditor();
 }
