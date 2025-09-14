@@ -332,7 +332,7 @@ function savePresentation() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${pres.title || 'presentation'}.json`;
+    a.download = `${pres.title || 'presentation'}.present`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -342,7 +342,7 @@ function savePresentation() {
 function openPresentation() {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = 'application/json';
+    input.accept = '.present';
     input.onchange = e => {
         const file = e.target.files[0];
         const reader = new FileReader();
@@ -469,9 +469,9 @@ function showTransitionSpeedDlg(){
     transitionSpeedDlg.showPopover();
 }
 function newPresFromDlg(){
-    const presNameInput = document.getElementById("PresNameInput");
+    const presNameInput = document.getElementById("presNameInput");
     const presName = presNameInput.value.trim() || "Untitled Presentation";
-    newPres(presName);
+    newPres(presName, "defaultTheme"); // Specify a default theme
     const newPresDlg = document.getElementById("newPresDlg");
     newPresDlg.hidePopover();
     presNameInput.value = "";
