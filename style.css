@@ -171,7 +171,7 @@ dialog .HStack {
     margin-left: 5px;
 }
 
-#md-editor {
+#md-editor, #maths-editor {
     background: none;
     border: none;
     color: white;

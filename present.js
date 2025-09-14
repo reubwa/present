@@ -2,6 +2,7 @@
 
 import Reveal from './node_modules/reveal.js/dist/reveal.esm.js';
 import Markdown from './node_modules/reveal.js/plugin/markdown/markdown.esm.js';
+import RevealMath from './node_modules/reveal.js/plugin/math/math.esm.js';
 
 // 1. Get the presentation data from local storage
 const presData = localStorage.getItem('currentPresentation');
@@ -28,6 +29,8 @@ if (presData) {
             slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''} data-markdown><script type="text/template">${presSlide.content.strings[0] || ''}</script></section>`;
         } else if (presSlide.content.type === "image") {
             slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''} data-background-image="${presSlide.content.strings[0] || ''}"><h2>${presSlide.title}</h2></section>`;
+        } else if (presSlide.content.type === "maths") {
+            slidesHTML += `<section data-transition-speed="${presSlide.transitionSpeed}" data-transition="${presSlide.entryTransition} ${presSlide.exitTransition}" ${presSlide.autoAnimate ? 'data-auto-animate' : ''}><h2>${presSlide.title}</h2>${presSlide.content.strings[0] || ''}</section>`;
         }
     });
 
@@ -39,7 +42,7 @@ if (presData) {
 
     // 5. Initialise the presentation
     let deck = new Reveal({
-        plugins: [Markdown]
+        plugins: [Markdown, RevealMath.KaTeX]
     });
     deck.initialize();
 

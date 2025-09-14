@@ -52,6 +52,8 @@ function typeToIcon(type) {
             return "markdown";
         case "image":
             return "image";
+        case "maths":
+            return "calculate";
         default:
             return "description";
     }
@@ -137,6 +139,13 @@ let imageEditor = `
     </div>
     `;
 
+let mathsEditor = `
+    <div class="VStack">
+        <input id="title" placeholder="Title" oninput="saveMathsSlide()" style="text-align: left;"/>
+        <textarea id="maths-editor" placeholder="LaTeX" oninput="saveMathsSlide()"></textarea>
+    </div>
+    `;
+
 // --- SCRIPT LOGIC ---
 
 const sidebar = document.getElementById("sb");
@@ -193,6 +202,8 @@ function showEditor() {
         showMarkdownEditor();
     } else if (slide.content.type === "image") {
         showImageEditor();
+    } else if (slide.content.type === "maths") {
+        showMathsEditor();
     } else {
         document.getElementById("editor").innerHTML = "<p>Unknown slide type.</p>";
     }
@@ -563,6 +574,39 @@ function saveImageSlide() {
 
 function newImageSlide() {
     pres.addSlide("Image", "image");
+    currentSlide = pres.slides.length; // Select the new slide
+    const newSlideDlg = document.getElementById("addSlideDlg");
+    newSlideDlg.hidePopover();
+    renderSidebar();
+    showEditor();
+}
+
+function showMathsEditor() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+    
+    document.getElementById("editor").innerHTML = mathsEditor;
+    const titleInput = document.getElementById("title");
+    const mathsEditorInput = document.getElementById("maths-editor");
+    titleInput.value = slide.title;
+    mathsEditorInput.value = slide.content.strings[0] || "";
+}
+
+function saveMathsSlide() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+
+    const titleInput = document.getElementById("title");
+    const mathsEditorInput = document.getElementById("maths-editor");
+
+    slide.title = titleInput.value || "Title";
+    slide.content.strings = [mathsEditorInput.value || ""];
+
+    renderSidebar();
+}
+
+function newMathsSlide() {
+    pres.addSlide("Maths", "maths");
     currentSlide = pres.slides.length; // Select the new slide
     const newSlideDlg = document.getElementById("addSlideDlg");
     newSlideDlg.hidePopover();
