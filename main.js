@@ -681,3 +681,54 @@ function duplicateSlide() {
     renderSidebar();
     showEditor();
 }
+
+function exportSlide() {
+    const slide = pres.slides[currentSlide - 1];
+    if (!slide) return;
+
+    const slideData = JSON.stringify(slide, null, 2);
+    const blob = new Blob([slideData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${slide.title || 'slide'}.presentslide`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function importSlide() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.presentslide';
+    input.onchange = e => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = event => {
+            try {
+                const json = JSON.parse(event.target.result);
+                if (json && json.title && json.content && json.content.type && Array.isArray(json.content.strings)) {
+                    const newSlide = new Slide(
+                        json.title,
+                        new SlideContent(json.content.type, json.content.strings),
+                        pres.slides.length + 1,
+                        json.entryTransition,
+                        json.exitTransition,
+                        json.transitionSpeed
+                    );
+                    pres.slides.push(newSlide);
+                    currentSlide = pres.slides.length; // Select the newly imported slide
+                    renderSidebar();
+                    showEditor();
+                } else {
+                    alert('Invalid slide file.');
+                }
+            } catch (error) {
+                alert('Error importing slide: ' + error.message);
+            }
+        };
+        reader.readAsText(file);
+    };
+    input.click();
+}
