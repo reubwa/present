@@ -301,6 +301,11 @@ sidebar.addEventListener('click', function(event) {
                 currentSlide = pres.slides[index].number;
                 renderSidebar();
                 showEditor();
+                if(currentSlide.autoAnimate === true){
+                    document.getElementById("autoAnimateCheckbox").checked = true;
+                } else {
+                    document.getElementById("autoAnimateCheckbox").checked = false;
+                }
             }
             return;
         }
