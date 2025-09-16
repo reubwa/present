@@ -732,3 +732,24 @@ function importSlide() {
     };
     input.click();
 }
+function moveSlideUp() {
+    if (currentSlide === 1) return; // Can't move the first slide up
+    const index = currentSlide - 1;
+    [pres.slides[index - 1], pres.slides[index]] = [pres.slides[index], pres.slides[index - 1]];
+    pres.slides[index - 1].number = index;
+    pres.slides[index].number = index + 1;
+    currentSlide--;
+    renderSidebar();
+    showEditor();
+}
+
+function moveSlideDown() {
+    if (currentSlide === pres.slides.length) return; // Can't move the last slide down
+    const index = currentSlide - 1;
+    [pres.slides[index + 1], pres.slides[index]] = [pres.slides[index], pres.slides[index + 1]];
+    pres.slides[index + 1].number = index + 2;
+    pres.slides[index].number = index + 1;
+    currentSlide++;
+    renderSidebar();
+    showEditor();
+}
