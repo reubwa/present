@@ -201,3 +201,7 @@ a {
 #presNameInput {
     color: lightblue;
 }
+
+#slideControls {
+    flex-wrap: wrap;
+}

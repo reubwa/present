@@ -50,24 +50,6 @@
             </div>
         </div>
         <div class="toolbar-g">
-            <div class="toolbar-el" onclick="importSlide()">
-                <span class="material-symbols-rounded">file_upload</span>
-                <p>Import Slide</p>
-            </div>
-            <div class="toolbar-el" onclick="exportSlide()">
-                <span class="material-symbols-rounded">file_download</span>
-                <p>Export Slide</p>
-            </div>
-            <div class="toolbar-el" onclick="moveSlideUp()">
-                <span class="material-symbols-rounded">arrow_upward</span>
-                <p>Move Up</p>
-            </div>
-            <div class="toolbar-el" onclick="moveSlideDown()">
-                <span class="material-symbols-rounded">arrow_downward</span>
-                <p>Move Down</p>
-            </div>
-        </div>
-        <div class="toolbar-g">
             <div class="toolbar-el" onclick="showAboutDlg()">
                 <span class="material-symbols-rounded">info</span>
                 <p>About</p>
@@ -192,6 +174,20 @@ SOFTWARE.</p>
                 </button>
                 <button onclick="showTransitionSpeedDlg()" title="Transition Speed">
                     <span class="material-symbols-rounded">speed</span>
+                </button>
+            </div>
+            <div class="HStack" id="slideControls">
+                <button onclick="importSlide()" title="Import Slide">
+                    <span class="material-symbols-rounded">file_upload</span>
+                </button>
+                <button onclick="exportSlide()" title="Export Slide">
+                    <span class="material-symbols-rounded">file_download</span>
+                </button>
+                <button onclick="moveSlideUp()" title="Move Slide Up">
+                    <span class="material-symbols-rounded">move_up</span>
+                </button>
+                <button onclick="moveSlideDown()" title="Move Slide Down">
+                    <span class="material-symbols-rounded">move_down</span>
                 </button>
             </div>
         </div>
